@@ -1,18 +1,29 @@
 package hello.core.order;
 
+import hello.core.AppConfig;
 import hello.core.member.domain.Grade;
 import hello.core.member.domain.Member;
 import hello.core.member.service.MemberService;
 import hello.core.member.service.MemberServiceImpl;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class OrderServiceTest {
-    MemberService memberService = new MemberServiceImpl();
-    OrderService orderService = new OrderServiceImpl();
+    MemberService memberService;
+    OrderService orderService;
+
+    @BeforeEach
+    public void beforeEach() {
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        memberService = applicationContext.getBean("memberService", MemberService.class);
+        orderService = applicationContext.getBean("orderService", OrderService.class);
+    }
 
     @Test
-    public void createOrder() {
+    public void  createOrder() {
         // given
         Long memberId = 1L;
         String itemName = "청진기";
